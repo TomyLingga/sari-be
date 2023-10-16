@@ -25,7 +25,7 @@ class CategoryController extends Controller
 
         if ($data->isEmpty()) {
             return response()->json([
-                'message' => "No Suppliers Found",
+                'message' => "No Data Found",
                 'success' => false,
                 'code' => 404
             ], 404);
@@ -33,7 +33,50 @@ class CategoryController extends Controller
 
         return response()->json([
             'data' => $data,
-            'message' => 'Spdk Retrieved Successfully',
+            'message' => 'Data Retrieved Successfully',
+            'code' => 200,
+            'success' => true,
+        ], 200);
+    }
+
+    public function indexByDept($id)
+    {
+        $data = Category::where('id_kategori', $id)
+                    ->orderBy('nama_permintaan', 'asc')
+                    ->get();
+
+        if ($data->isEmpty()) {
+            return response()->json([
+                'message' => "No Data Found",
+                'success' => false,
+                'code' => 404
+            ], 404);
+        }
+
+        return response()->json([
+            'data' => $data,
+            'message' => 'Data Retrieved Successfully',
+            'code' => 200,
+            'success' => true,
+        ], 200);
+    }
+
+    public function indexDept()
+    {
+        $data = Category::orderBy('nama_kategori', 'asc')
+                        ->pluck('nama_kategori', 'id_kategori');
+
+        if ($data->isEmpty()) {
+            return response()->json([
+                'message' => "No Data Found",
+                'success' => false,
+                'code' => 404
+            ], 404);
+        }
+
+        return response()->json([
+            'data' => $data,
+            'message' => 'Data Retrieved Successfully',
             'code' => 200,
             'success' => true,
         ], 200);
@@ -45,7 +88,7 @@ class CategoryController extends Controller
 
         try {
             $validator = Validator::make($request->all(), [
-                'nama_kategori' => 'required',
+                'nama_permintaan' => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -75,7 +118,7 @@ class CategoryController extends Controller
             $Category = Category::create([
                 'id_kategori' => $departmentId,
                 'nama_kategori' => $departmentData['department'],
-                'nama_permintaan' => $request->get('nama_kategori'),
+                'nama_permintaan' => $request->get('nama_permintaan'),
             ]);
 
             DB::commit();
@@ -135,7 +178,7 @@ class CategoryController extends Controller
 
         try {
             $validator = Validator::make($request->all(), [
-                'nama_kategori' => 'required',
+                'nama_permintaan' => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -162,7 +205,7 @@ class CategoryController extends Controller
                 ], 401);
             }
 
-            $category->nama_kategori = $request->get('nama_kategori');
+            $category->nama_permintaan = $request->get('nama_permintaan');
             $category->save();
 
             DB::commit();

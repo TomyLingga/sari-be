@@ -45,4 +45,26 @@ class FormRequest extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'jenis_permintaan');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function atasan()
+    {
+        return $this->belongsTo(User::class, 'atasan_id');
+    }
+    public function deptPic()
+    {
+        return $this->belongsTo(User::class, 'waktu_request');
+    }
+    public function executor()
+    {
+        return $this->belongsTo(User::class, 'eksekutor');
+    }
 }
