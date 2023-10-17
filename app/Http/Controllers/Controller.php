@@ -14,6 +14,7 @@ class Controller extends BaseController
     public $token;
     public $userData;
     public $urlDept = "http://36.92.181.10:4763/api/department/get/";
+    public $urlUser = "http://36.92.181.10:4763/api/user/get/";
 
     public function __construct()
     {

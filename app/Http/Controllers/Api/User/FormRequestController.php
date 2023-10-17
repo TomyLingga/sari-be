@@ -10,52 +10,26 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Http;
+use PDF;
 
 class FormRequestController extends Controller
 {
-    public function indexAll()
-    {
-        $data = FormRequest::with('category','atasan', 'user', 'deptPic', 'executor')
-                    ->latest()
-                    ->get();
+    public function print($id) {
 
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => "No Request Found",
-                'success' => false,
-                'code' => 404
-            ], 404);
-        }
+        $fr = FormRequest::with('category','atasan', 'user', 'deptPic', 'executor')
+                        ->findOrFail($id);
 
-        return response()->json([
-            'data' => $data,
-            'message' => 'Data Retrieved Successfully',
-            'code' => 200,
-            'success' => true,
-        ], 200);
-    }
+        $nomor = $fr->no_wo;
 
-    public function show($id)
-    {
-        $data = FormRequest::where('id', $id)
-                    ->with('category','atasan', 'user', 'deptPic', 'executor')
-                    ->latest()
-                    ->get();
+        $userResponse = Http::withHeaders([
+            'Authorization' => $this->token,
+        ])->get($this->urlUser . $fr->user_id);
 
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => "No Request Found",
-                'success' => false,
-                'code' => 404
-            ], 404);
-        }
+        $userResult = $userResponse->json()['data'] ?? [];
 
-        return response()->json([
-            'data' => $data,
-            'message' => 'Data Retrieved Successfully',
-            'code' => 200,
-            'success' => true,
-        ], 200);
+        $pdf = PDF::loadview('frPdf',['fr' => $fr, 'userResult' => $userResult])->setPaper('a4', 'landscape');
+
+    	return $pdf->stream('Form Request'.$nomor.'.pdf');
     }
 
     public function index()
@@ -130,6 +104,7 @@ class FormRequestController extends Controller
             ])->get($this->urlDept . $departmentId);
 
             $departmentData = $deptResponse->json()['data'] ?? [];
+
             if (empty($departmentData)) {
                 return response()->json([
                     'message' => 'Category not found',

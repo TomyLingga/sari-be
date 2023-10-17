@@ -69,6 +69,7 @@ class FormRequestController extends Controller
 
             $existingRequest->update([
                 'approve_kategori_mgr' => now()->toDateString(),
+                'waktu_request' => $this->userData->sub,
                 'hp_c' => $this->userData->no_hp,
                 'prioritas' => $request->input('prioritas'),
                 'status' => 3,

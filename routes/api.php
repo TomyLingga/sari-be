@@ -19,6 +19,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'user'], function () {
+
+    Route::get('request/{id}/pdf', [App\Http\Controllers\Api\User\FormRequestController::class, 'print']);
     //fr-user
     Route::get('request/index-mine', [App\Http\Controllers\Api\User\FormRequestController::class, 'index']);
     Route::post('request/add', [App\Http\Controllers\Api\User\FormRequestController::class, 'store']);
@@ -45,8 +47,8 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('category/update/{category}', [App\Http\Controllers\Api\Dept\CategoryController::class, 'update']);
 });
 Route::group(['middleware' => 'adminis'], function () {
-    Route::get('request/index', [App\Http\Controllers\Api\User\FormRequestController::class, 'indexAll']);
-    Route::get('request/get/{id}', [App\Http\Controllers\Api\User\FormRequestController::class, 'show']);
+    Route::get('request/index', [App\Http\Controllers\Api\SA\FormRequestController::class, 'indexAll']);
+    Route::get('request/get/{id}', [App\Http\Controllers\Api\SA\FormRequestController::class, 'show']);
 });
 
 Route::fallback(function () {
