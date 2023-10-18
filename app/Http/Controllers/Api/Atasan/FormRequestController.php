@@ -59,7 +59,7 @@ class FormRequestController extends Controller
                 'approve_atasan' => now()->toDateString(),
                 'hp_b' => $this->userData->no_hp,
                 'status' => 2,
-                'info' => "Menunggu persetujuan departemen ".$existingRequest->category->nama_kategori
+                'info' => "Waiting approval from ".$existingRequest->category->nama_kategori
             ]);
 
             DB::commit();

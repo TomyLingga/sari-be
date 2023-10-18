@@ -26,4 +26,9 @@ class Category extends Model
     {
         return $this->hasMany(FormRequest::class, 'jenis_permintaan');
     }
+
+    public function problems()
+    {
+        return $this->hasMany(Problem::class, 'jenis_permintaan');
+    }
 }

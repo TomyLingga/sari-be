@@ -37,4 +37,18 @@ class Problem extends Model
         'updated_at',
     ];
 
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'jenis_permintaan');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function executor()
+    {
+        return $this->belongsTo(User::class, 'eksekutor');
+    }
 }

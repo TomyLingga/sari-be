@@ -123,10 +123,10 @@ class FormRequestController extends Controller
 
             $currentMonth = now()->format('m');
             $currentYear = now()->format('Y');
-            $count = FormRequest::where('jenis_permintaan', $request->jenis_permintaan)
-                ->whereMonth('created_at', $currentMonth)
-                ->whereYear('created_at', $currentYear)
-                ->count() + 1;
+            $count = FormRequest::where('kategori', $request->kategori)
+                        ->whereMonth('created_at', $currentMonth)
+                        ->whereYear('created_at', $currentYear)
+                        ->count() + 1;
 
             $countFormatted = str_pad($count, 4, '0', STR_PAD_LEFT);
 
@@ -147,7 +147,7 @@ class FormRequestController extends Controller
                 'office' => $request->office,
                 'email_inl' => $request->email_inl,
                 'status' => 1,
-                'info' => "Menunggu persetujuan dari ".$atasan->name.", ".$atasan->jabatan
+                'info' => "Waiting approval from ".$atasan->name.", ".$atasan->jabatan
             ];
 
             $data = FormRequest::create($data);
@@ -195,7 +195,7 @@ class FormRequestController extends Controller
                 ], 403);
             }
 
-            $fieldsToUpdate = ['office', 'email_inl', 'atasan_id', 'kategori', 'jenis_permintaan', 'keperluan'];
+            $fieldsToUpdate = ['office', 'email_inl', 'atasan_id','jenis_permintaan', 'keperluan'];
 
             foreach ($fieldsToUpdate as $field) {
                 if ($request->has($field)) {

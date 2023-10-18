@@ -73,7 +73,7 @@ class FormRequestController extends Controller
                 'hp_c' => $this->userData->no_hp,
                 'prioritas' => $request->input('prioritas'),
                 'status' => 3,
-                'info' => "Request telah di approve ".$this->userData->name.", menunggu eksekutor."
+                'info' => "Request approved by ".$this->userData->name.", waiting executor."
             ]);
 
             DB::commit();
@@ -190,7 +190,7 @@ class FormRequestController extends Controller
                     $updateData = array_merge($commonData, [
                         'waktu_mulai' => now()->toDateString(),
                         'status' => 5,
-                        'info' => "Onprogress oleh " . $this->userData->name,
+                        'info' => "Being handled by " . $this->userData->name,
                     ]);
                     break;
 
@@ -209,7 +209,7 @@ class FormRequestController extends Controller
 
                     $updateData = array_merge($commonData, [
                         'status' => 4,
-                        'info' => "Di-pending oleh " . $this->userData->name,
+                        'info' => "Pending by " . $this->userData->name,
                         'keterangan' => $request->input('keterangan'),
                     ]);
                     break;
@@ -239,7 +239,7 @@ class FormRequestController extends Controller
                         'approve_kategori_fr' => now()->toDateString(),
                         'waktu_selesai' => now()->toDateString(),
                         'status' => 6,
-                        'info' => "Diselesaikan oleh " . $this->userData->name,
+                        'info' => "Completed by " . $this->userData->name,
                         'keterangan' => $request->input('keterangan'),
                     ]);
                     break;

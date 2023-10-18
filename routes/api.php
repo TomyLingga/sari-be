@@ -27,6 +27,12 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('request/update/{id}', [App\Http\Controllers\Api\User\FormRequestController::class, 'edit']);
     Route::post('request/cancel/{id}', [App\Http\Controllers\Api\User\FormRequestController::class, 'cancel']);
 
+    //problem-user
+    Route::get('problem/index-mine', [App\Http\Controllers\Api\User\ProblemController::class, 'index']);
+    Route::post('problem/add', [App\Http\Controllers\Api\User\ProblemController::class, 'store']);
+    Route::post('problem/update/{id}', [App\Http\Controllers\Api\User\ProblemController::class, 'edit']);
+    Route::post('problem/cancel/{id}', [App\Http\Controllers\Api\User\ProblemController::class, 'cancel']);
+
     //fr-atasan
     Route::get('request/index-atasan', [App\Http\Controllers\Api\Atasan\FormRequestController::class, 'index']);
     Route::post('request/decline-atasan/{id}', [App\Http\Controllers\Api\Atasan\FormRequestController::class, 'decline']);
@@ -38,17 +44,25 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('request/approve-dept/{id}', [App\Http\Controllers\Api\Dept\FormRequestController::class, 'approve']);
     Route::post('request/execute/{id}', [App\Http\Controllers\Api\Dept\FormRequestController::class, 'execute']);
 
-    //cat
+    //problem-dept
+    Route::get('problem/index-dept', [App\Http\Controllers\Api\Dept\ProblemController::class, 'index']);
+    Route::post('problem/decline-dept/{id}', [App\Http\Controllers\Api\Dept\ProblemController::class, 'decline']);
+    Route::get('problem/execute/{id}', [App\Http\Controllers\Api\Dept\ProblemController::class, 'execute']);
+    Route::post('problem/done/{id}', [App\Http\Controllers\Api\Dept\ProblemController::class, 'done']);
+
+    //categories
     Route::get('category/index-user-dept', [App\Http\Controllers\Api\Dept\CategoryController::class, 'index']);
     Route::get('category/index-dept', [App\Http\Controllers\Api\Dept\CategoryController::class, 'indexDept']);
     Route::get('category/index-by-dept/{id}', [App\Http\Controllers\Api\Dept\CategoryController::class, 'indexByDept']);
     Route::get('category/get/{category}', [App\Http\Controllers\Api\Dept\CategoryController::class, 'show']);
     Route::post('category/add', [App\Http\Controllers\Api\Dept\CategoryController::class, 'store']);
     Route::post('category/update/{category}', [App\Http\Controllers\Api\Dept\CategoryController::class, 'update']);
+
+    Route::get('request/get/{id}', [App\Http\Controllers\Api\SA\FormRequestController::class, 'show']);
+    Route::get('problem/get/{id}', [App\Http\Controllers\Api\Dept\ProblemController::class, 'show']);
 });
 Route::group(['middleware' => 'adminis'], function () {
     Route::get('request/index', [App\Http\Controllers\Api\SA\FormRequestController::class, 'indexAll']);
-    Route::get('request/get/{id}', [App\Http\Controllers\Api\SA\FormRequestController::class, 'show']);
 });
 
 Route::fallback(function () {

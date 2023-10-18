@@ -20,7 +20,7 @@ class CategoryController extends Controller
     {
         // dd($this->userData);
         $data = Category::where('id_kategori', $this->userData->departemen)
-                    ->latest()
+                    ->orderBy('nama_permintaan', 'ASC')
                     ->get();
 
         if ($data->isEmpty()) {
