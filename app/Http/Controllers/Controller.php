@@ -13,14 +13,17 @@ class Controller extends BaseController
 
     public $token;
     public $userData;
-    public $urlDept = "http://36.92.181.10:4763/api/department/get/";
-    public $urlUser = "http://36.92.181.10:4763/api/user/get/";
+    public $urlDept;
+    public $urlUser;
 
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
             $this->token = $request->get('user_token');
             $this->userData = $request->get('decoded');
+            $this->urlDept = env('BASE_URL_PORTAL')."department/get/";
+            $this->urlUser = env('BASE_URL_PORTAL')."user/get/";
+
             return $next($request);
         });
     }
